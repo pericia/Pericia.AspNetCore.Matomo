@@ -19,9 +19,14 @@ namespace Pericia.AspNetCore.Matomo
         {
             var trackerUrl = configuration["trackerUrl"];
             var siteId = configuration["siteId"];
-            if (string.IsNullOrEmpty(trackerUrl)|| string.IsNullOrEmpty(siteId))
+            if (string.IsNullOrEmpty(trackerUrl) || string.IsNullOrEmpty(siteId))
             {
                 return;
+            }
+
+            if (!trackerUrl.EndsWith("/"))
+            {
+                trackerUrl += "/";
             }
 
             output.TagName = "script";
@@ -45,7 +50,7 @@ namespace Pericia.AspNetCore.Matomo
             scriptContent.AppendLine("    }");
             scriptContent.AppendLine("    this.setVisitorCookieTimeout( getOriginalVisitorCookieTimeout() );");
             scriptContent.AppendLine("  }]);");
-            
+
             scriptContent.AppendLine("  _paq.push(['trackPageView']);");
             scriptContent.AppendLine("  _paq.push(['enableLinkTracking']);");
 
@@ -58,6 +63,8 @@ namespace Pericia.AspNetCore.Matomo
             scriptContent.AppendLine("  })();");
 
             output.Content.SetHtmlContent(scriptContent.ToString());
+
+            output.PostContent.AppendHtml($"<noscript><p><img src=\"{trackerUrl}matomo.php?idsite={siteId}&amp;rec=1\" style=\"border:0;\" alt=\"\" /></p></noscript>");
         }
     }
 }

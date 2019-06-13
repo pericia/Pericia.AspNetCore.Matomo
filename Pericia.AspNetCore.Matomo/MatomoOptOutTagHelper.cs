@@ -23,12 +23,17 @@ namespace Pericia.AspNetCore.Matomo
                 return;
             }
 
+            if (!trackerUrl.EndsWith("/"))
+            {
+                trackerUrl += "/";
+            }
+
             output.TagName = "iframe";
             output.Attributes.SetAttribute("style", "border: 0; height: 200px; width: 600px;");
 
             var src = new StringBuilder();
             src.Append(trackerUrl);
-            src.Append("/index.php?module=CoreAdminHome&action=optOut");
+            src.Append("index.php?module=CoreAdminHome&action=optOut");
 
             //TODO : configuration
             src.Append("&language=en");            

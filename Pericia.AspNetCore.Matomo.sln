@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29006.145
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pericia.AspNetCore.Matomo", "Pericia.AspNetCore.Matomo\Pericia.AspNetCore.Matomo.csproj", "{2AAAFA6D-E1F5-4E20-B0DB-CD51CECB6721}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{24094438-A9EF-40E0-8496-77689BD1D84C}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AAAFA6D-E1F5-4E20-B0DB-CD51CECB6721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AAAFA6D-E1F5-4E20-B0DB-CD51CECB6721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AAAFA6D-E1F5-4E20-B0DB-CD51CECB6721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AAAFA6D-E1F5-4E20-B0DB-CD51CECB6721}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46239082-DA32-4E9E-A2BE-80029B71A0D7}
+	EndGlobalSection
+EndGlobal

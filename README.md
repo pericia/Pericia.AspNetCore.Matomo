@@ -31,12 +31,27 @@ If you don't do this, you must ask for user consent before to add the tracking t
 Add a "Matomo" section in your settings file :
 
     "Matomo": {
-      "trackerUrl": "https://stats.example.com",
-      "siteId": "1"
+		"trackerUrl": "https://stats.example.com",
+		"siteId": "1",
+		"trackerOptions": {
+			"disableCookieTimeoutExtension": true,
+			"noScriptTracking": true,
+			"prependDomainToTitle": false,
+			"clientDoNotTrackDetection": true
+		}
     }
+
+Required parameters :
 
 - `trackerUrl` :  the url of your matomo site
 - `siteId` : the id of the website in matomo
+
+Optional parameters :
+
+- `trackerOptions:disableCookieTimeoutExtension` : limit the cookie duration to 13 months - required for GDPR compliance (defaults true)
+- `trackerOptions:noScriptTracking` : tracks users with JavaScript disabled (defaults true)
+- `trackerOptions:prependDomainToTitle` : prepend the site domain to the page title when tracking (defaults false)
+- `trackerOptions:clientDoNotTrackDetection` : enable client side DoNotTrack detection (defaults true)
 
 ### Tag helpers
 

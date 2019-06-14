@@ -8,16 +8,18 @@ namespace Pericia.AspNetCore.Matomo
 {
     public class MatomoOptOutTagHelper : TagHelper
     {
-        private readonly IConfigurationSection configuration;
+        private readonly MatomoOptions options;
 
         public MatomoOptOutTagHelper(IConfiguration configuration)
         {
-            this.configuration = configuration.GetSection("Matomo");
+            var options = new MatomoOptions();
+            configuration.GetSection("Matomo").Bind(options);
+            this.options = options;
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var trackerUrl = configuration["trackerUrl"];
+            var trackerUrl = options.TrackerUrl;
             if (string.IsNullOrEmpty(trackerUrl))
             {
                 return;

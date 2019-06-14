@@ -8,17 +8,19 @@ namespace Pericia.AspNetCore.Matomo
 {
     public class MatomoTrackingTagHelper : TagHelper
     {
-        private readonly IConfigurationSection configuration;
+        private readonly MatomoOptions options;
 
         public MatomoTrackingTagHelper(IConfiguration configuration)
         {
-            this.configuration = configuration.GetSection("Matomo");
+            var options = new MatomoOptions();
+            configuration.GetSection("Matomo").Bind(options);
+            this.options = options;
         }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var trackerUrl = configuration["trackerUrl"];
-            var siteId = configuration["siteId"];
+            var trackerUrl = options.TrackerUrl;
+            var siteId = options.SiteId;
             if (string.IsNullOrEmpty(trackerUrl) || string.IsNullOrEmpty(siteId))
             {
                 return;
@@ -37,19 +39,30 @@ namespace Pericia.AspNetCore.Matomo
             scriptContent.AppendLine("");
             scriptContent.AppendLine("  var _paq = window._paq || [];");
 
-            // Non prorogation des cookies
-            // https://www.cnil.fr/sites/default/files/typo/document/Configuration_piwik.pdf
-            scriptContent.AppendLine("  _paq.push([function() {");
-            scriptContent.AppendLine("    var self = this;");
-            scriptContent.AppendLine("    function getOriginalVisitorCookieTimeout() {");
-            scriptContent.AppendLine("      var now = new Date(),nowTs = Math.round(now.getTime() / 1000),visitorInfo = self.getVisitorInfo();");
-            scriptContent.AppendLine("      var createTs = parseInt(visitorInfo[2]);");
-            scriptContent.AppendLine("      var cookieTimeout = 33696000; // 13 mois en secondes");
-            scriptContent.AppendLine("      var originalTimeout = createTs + cookieTimeout - nowTs;");
-            scriptContent.AppendLine("      return originalTimeout;");
-            scriptContent.AppendLine("    }");
-            scriptContent.AppendLine("    this.setVisitorCookieTimeout( getOriginalVisitorCookieTimeout() );");
-            scriptContent.AppendLine("  }]);");
+            if (options.TrackerOptions.DisableCookieTimeoutExtension)
+            {
+                scriptContent.AppendLine("  _paq.push([function() {");
+                scriptContent.AppendLine("    var self = this;");
+                scriptContent.AppendLine("    function getOriginalVisitorCookieTimeout() {");
+                scriptContent.AppendLine("      var now = new Date(),nowTs = Math.round(now.getTime() / 1000),visitorInfo = self.getVisitorInfo();");
+                scriptContent.AppendLine("      var createTs = parseInt(visitorInfo[2]);");
+                scriptContent.AppendLine("      var cookieTimeout = 33696000;");
+                scriptContent.AppendLine("      var originalTimeout = createTs + cookieTimeout - nowTs;");
+                scriptContent.AppendLine("      return originalTimeout;");
+                scriptContent.AppendLine("    }");
+                scriptContent.AppendLine("    this.setVisitorCookieTimeout( getOriginalVisitorCookieTimeout() );");
+                scriptContent.AppendLine("  }]);");
+            }
+
+            if (options.TrackerOptions.PrependDomainToTitle)
+            {
+                scriptContent.AppendLine("  _paq.push(['setDocumentTitle', document.domain + '/' + document.title]);");
+            }
+
+            if (options.TrackerOptions.ClientDoNotTrackDetection)
+            {
+                scriptContent.AppendLine("  _paq.push(['setDoNotTrack', true]);");
+            }
 
             scriptContent.AppendLine("  _paq.push(['trackPageView']);");
             scriptContent.AppendLine("  _paq.push(['enableLinkTracking']);");
@@ -64,7 +77,10 @@ namespace Pericia.AspNetCore.Matomo
 
             output.Content.SetHtmlContent(scriptContent.ToString());
 
-            output.PostContent.AppendHtml($"<noscript><p><img src=\"{trackerUrl}matomo.php?idsite={siteId}&amp;rec=1\" style=\"border:0;\" alt=\"\" /></p></noscript>");
+            if (options.TrackerOptions.NoScriptTracking)
+            {
+                output.PostElement.AppendHtml($"<noscript><p><img src=\"{trackerUrl}matomo.php?idsite={siteId}&amp;rec=1\" style=\"border:0;\" alt=\"\" /></p></noscript>");
+            }
         }
     }
 }

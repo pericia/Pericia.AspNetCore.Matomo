@@ -10,6 +10,8 @@ namespace Pericia.AspNetCore.Matomo
 
         public int SiteId { get; set; }
 
+        public string TokenAuth { get; set; }
+
         public MatomoTrackerOptions TrackerOptions { get; set; } = new MatomoTrackerOptions();
 
         public MatomoOptoutOptions OptoutOptions { get; set; } = new MatomoOptoutOptions();

@@ -38,6 +38,9 @@ Add a "Matomo" section in your settings file :
 			"noScriptTracking": true,
 			"prependDomainToTitle": false,
 			"clientDoNotTrackDetection": true
+		},
+		"optoutOptions": {
+			"language": "fr"
 		}
     }
 
@@ -52,6 +55,7 @@ Optional parameters :
 - `trackerOptions:noScriptTracking` : tracks users with JavaScript disabled (defaults true)
 - `trackerOptions:prependDomainToTitle` : prepend the site domain to the page title when tracking (defaults false)
 - `trackerOptions:clientDoNotTrackDetection` : enable client side DoNotTrack detection (defaults true)
+- `optoutOptions:language` : the 2-letter code for the language used in the opt-out screen (defaults `en`)
 
 ### Tag helpers
 

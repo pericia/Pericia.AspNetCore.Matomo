@@ -21,14 +21,9 @@ namespace Pericia.AspNetCore.Matomo
         {
             var trackerUrl = options.TrackerUrl;
             var siteId = options.SiteId;
-            if (string.IsNullOrEmpty(trackerUrl) || string.IsNullOrEmpty(siteId))
+            if (options.TrackerUrl == null || siteId == 0)
             {
                 return;
-            }
-
-            if (!trackerUrl.EndsWith("/"))
-            {
-                trackerUrl += "/";
             }
 
             output.TagName = "script";
@@ -79,7 +74,8 @@ namespace Pericia.AspNetCore.Matomo
 
             if (options.TrackerOptions.NoScriptTracking)
             {
-                output.PostElement.AppendHtml($"<noscript><p><img src=\"{trackerUrl}matomo.php?idsite={siteId}&amp;rec=1\" style=\"border:0;\" alt=\"\" /></p></noscript>");
+                var imgSrc = new Uri(trackerUrl, $"matomo.php?idsite={siteId}&rec=1");
+                output.PostElement.AppendHtml($"<noscript><p><img src=\"{imgSrc}\" style=\"border:0;\" alt=\"\" /></p></noscript>");
             }
         }
     }

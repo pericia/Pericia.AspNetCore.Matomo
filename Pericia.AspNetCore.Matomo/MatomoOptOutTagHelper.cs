@@ -20,32 +20,31 @@ namespace Pericia.AspNetCore.Matomo
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var trackerUrl = options.TrackerUrl;
-            if (string.IsNullOrEmpty(trackerUrl))
+            if (options.TrackerUrl == null)
             {
                 return;
-            }
-
-            if (!trackerUrl.EndsWith("/"))
-            {
-                trackerUrl += "/";
             }
 
             output.TagName = "iframe";
             output.Attributes.SetAttribute("style", "border: 0; height: 200px; width: 600px;");
 
-            var src = new StringBuilder();
-            src.Append(trackerUrl);
-            src.Append("index.php?module=CoreAdminHome&action=optOut");
+            var path = new StringBuilder();
+            path.Append(trackerUrl);
+            path.Append("index.php?module=CoreAdminHome&action=optOut");
+
+            path.Append("&language=");
+            path.Append(options.OptoutOptions.Language);
 
             //TODO : configuration
-            src.Append("&language=en");            
-            src.Append("&backgroundColor=");
-            src.Append("&fontColor=");
-            src.Append("&fontSize=");
-            src.Append("&fontFamily=");
+            path.Append("&backgroundColor=");
+            path.Append("&fontColor=");
+            path.Append("&fontSize=");
+            path.Append("&fontFamily=");
 
-            output.Attributes.SetAttribute("src", src.ToString());      
-  
+            var src = new Uri(trackerUrl, path.ToString());
+
+            output.Attributes.SetAttribute("src", src);
+
         }
     }
 }

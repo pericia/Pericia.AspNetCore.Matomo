@@ -30,7 +30,6 @@ namespace Pericia.AspNetCore.Matomo.ServerTracking
         {
             _ = Track(context);
 
-            // Call the next delegate/middleware in the pipeline
             await next(context);
         }
 
@@ -45,11 +44,26 @@ namespace Pericia.AspNetCore.Matomo.ServerTracking
             urlParams += "&url=" + HttpUtility.UrlEncode(UriHelper.GetDisplayUrl(request));
             urlParams += "&cip=" + context.Connection.RemoteIpAddress;
 
+            var ua = request.Headers["User-Agent"].ToString();
+            if (!string.IsNullOrWhiteSpace(ua))
+            {
+                urlParams += "&ua=" + HttpUtility.UrlEncode(ua);
+            }
+
+            var lang = request.Headers["Accept-Language"].ToString();
+            if (!string.IsNullOrWhiteSpace(lang))
+            {
+                urlParams += "&lang=" + HttpUtility.UrlEncode(lang);
+            }
+
+            if (context.User.Identity.IsAuthenticated)
+            {
+                urlParams += "&uid=" + HttpUtility.UrlEncode(context.User.Identity.Name);
+            }
+
             var url = new Uri(options.TrackerUrl, urlParams);
-
+                        
             await client.GetAsync(url);
-
-            await Task.Delay(TimeSpan.FromSeconds(5));
         }
     }
 }

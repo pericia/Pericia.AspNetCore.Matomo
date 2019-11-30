@@ -6,7 +6,7 @@ namespace Pericia.AspNetCore.Matomo
 {
     internal class MatomoOptions
     {
-        public Uri TrackerUrl { get; set; }
+        public Uri TrackerUrl { get; set; } = default!;
 
         public int SiteId { get; set; }
 
@@ -20,7 +20,7 @@ namespace Pericia.AspNetCore.Matomo
         public bool DisableCookieTimeoutExtension { get; set; } = true;
 
         public bool NoScriptTracking { get; set; } = true;
-        
+
         public bool PrependDomainToTitle { get; set; } = false;
 
         public bool ClientDoNotTrackDetection { get; set; } = true;

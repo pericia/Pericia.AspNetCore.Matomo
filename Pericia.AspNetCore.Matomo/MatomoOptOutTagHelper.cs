@@ -20,7 +20,7 @@ namespace Pericia.AspNetCore.Matomo
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var trackerUrl = options.TrackerUrl;
-            if (options.TrackerUrl == null)
+            if (options.TrackerUrl == null || options.SiteId == 0)
             {
                 return;
             }

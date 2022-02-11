@@ -21,7 +21,7 @@ namespace Pericia.AspNetCore.Matomo
         {
             var trackerUrl = options.TrackerUrl;
             var siteId = options.SiteId;
-            if (options.TrackerUrl == null || siteId == 0)
+            if (trackerUrl == null || siteId == 0)
             {
                 return;
             }

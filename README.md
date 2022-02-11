@@ -31,31 +31,31 @@ If you don't do this, you must ask for user consent before to add the tracking t
 Add a "Matomo" section in your settings file :
 
     "Matomo": {
-		"trackerUrl": "https://stats.example.com",
-		"siteId": "1",
-		"trackerOptions": {
-			"disableCookieTimeoutExtension": true,
-			"noScriptTracking": true,
-			"prependDomainToTitle": false,
-			"clientDoNotTrackDetection": true
+		"TrackerUrl": "https://stats.example.com",
+		"SiteId": "1",
+		"TrackerOptions": {
+			"DisableCookieTimeoutExtension": true,
+			"NoScriptTracking": true,
+			"PrependDomainToTitle": false,
+			"ClientDoNotTrackDetection": true
 		},
-		"optoutOptions": {
-			"language": "fr"
+		"OptoutOptions": {
+			"Language": "fr"
 		}
     }
 
 Required parameters :
 
-- `trackerUrl` :  the url of your matomo site
-- `siteId` : the id of the website in matomo
+- `TrackerUrl` :  the url of your matomo site
+- `SiteId` : the id of the website in matomo
 
 Optional parameters :
 
-- `trackerOptions:disableCookieTimeoutExtension` : limit the cookie duration to 13 months - required for GDPR compliance (defaults true)
-- `trackerOptions:noScriptTracking` : tracks users with JavaScript disabled (defaults true)
-- `trackerOptions:prependDomainToTitle` : prepend the site domain to the page title when tracking (defaults false)
-- `trackerOptions:clientDoNotTrackDetection` : enable client side DoNotTrack detection (defaults true)
-- `optoutOptions:language` : the 2-letter code for the language used in the opt-out screen (defaults `en`)
+- `TrackerOptions:DisableCookieTimeoutExtension` : limit the cookie duration to 13 months - required for GDPR compliance (defaults true)
+- `TrackerOptions:NoScriptTracking` : tracks users with JavaScript disabled (defaults true)
+- `TrackerOptions:PrependDomainToTitle` : prepend the site domain to the page title when tracking (defaults false)
+- `TrackerOptions:ClientDoNotTrackDetection` : enable client side DoNotTrack detection (defaults true)
+- `OptoutOptions:Language` : the 2-letter code for the language used in the opt-out screen (defaults `en`)
 
 ### Tag helpers
 
